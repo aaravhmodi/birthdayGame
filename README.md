@@ -5,10 +5,13 @@ A fun birthday-themed catching game! Catch falling birthday items with your bask
 ## Screenshots
 
 ### Instructions Screen
-![Instructions](https://i.imgur.com/placeholder1.png)
+![Instructions Screen](./screenshots/birthdayopening.png)
 
 ### Gameplay
-![Gameplay](https://i.imgur.com/placeholder2.png)
+![Gameplay](./screenshots/birthdayplaying.png)
+
+### Game Over
+![Game Over](./screenshots/birthdayover.png)
 
 ## Getting Started
 
