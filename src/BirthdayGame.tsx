@@ -113,6 +113,14 @@ export default function BirthdayGame() {
     setShowInstructions(false);
   };
 
+  const handleMoveLeft = () => {
+    setBasketX((prev) => Math.max(prev - 30, 0));
+  };
+
+  const handleMoveRight = () => {
+    setBasketX((prev) => Math.min(prev + 30, 300));
+  };
+
   // Add keyboard shortcut for restart (R key)
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -127,7 +135,8 @@ export default function BirthdayGame() {
   return (
     <div
       ref={gameRef}
-      className="relative w-[320px] h-[500px] border bg-blue-50 overflow-hidden rounded-lg"
+      className="relative w-[320px] max-w-full h-[500px] border bg-blue-50 overflow-hidden rounded-lg select-none"
+      style={{ maxWidth: '100vw', maxHeight: '100vh' }}
     >
       {items.map((item) => (
         <div
@@ -149,14 +158,42 @@ export default function BirthdayGame() {
         High: {highScore}
       </div>
       
+      {/* Mobile Control Buttons */}
+      {!showInstructions && !gameOver && (
+        <>
+          <button
+            onClick={handleMoveLeft}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handleMoveLeft();
+            }}
+            className="absolute bottom-12 left-4 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white text-2xl font-bold w-14 h-14 rounded-full shadow-lg touch-manipulation select-none flex items-center justify-center transition"
+            aria-label="Move left"
+          >
+            ←
+          </button>
+          <button
+            onClick={handleMoveRight}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handleMoveRight();
+            }}
+            className="absolute bottom-12 right-4 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white text-2xl font-bold w-14 h-14 rounded-full shadow-lg touch-manipulation select-none flex items-center justify-center transition"
+            aria-label="Move right"
+          >
+            →
+          </button>
+        </>
+      )}
+
       {/* Restart Button */}
       {!showInstructions && !gameOver && (
         <button
           onClick={handleRestart}
-          className="absolute bottom-2 right-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold py-1 px-3 rounded transition"
+          className="absolute bottom-2 right-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold py-1 px-3 rounded transition touch-manipulation"
           title="Press R to restart"
         >
-          Restart (R)
+          Restart
         </button>
       )}
 
@@ -166,18 +203,19 @@ export default function BirthdayGame() {
           <h1 className="text-3xl font-bold mb-4 text-blue-600">🎂 Birthday Game 🎂</h1>
           <div className="text-center mb-6">
             <p className="text-lg mb-2">How to Play:</p>
-            <p className="mb-2">Use arrow keys to move the basket</p>
+            <p className="mb-2">Move the basket to catch items</p>
             <div className="flex justify-center gap-2 mb-2">
               <span className="bg-gray-200 px-3 py-1 rounded font-bold">←</span>
               <span className="bg-gray-200 px-3 py-1 rounded font-bold">→</span>
             </div>
+            <p className="text-sm text-gray-600 mb-1">Desktop: Use arrow keys</p>
+            <p className="text-sm text-gray-600 mb-2">Mobile: Tap the buttons on screen</p>
             <p className="text-sm text-gray-600">Catch items - don't let them hit the bottom!</p>
             <p className="text-sm text-purple-600 font-bold mt-1">Beat your high score!</p>
-            <p className="text-xs text-gray-500 mt-2">Press R to restart anytime</p>
           </div>
           <button
             onClick={handleStart}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition touch-manipulation"
           >
             Start Game
           </button>
@@ -195,7 +233,7 @@ export default function BirthdayGame() {
           </div>
           <button
             onClick={handleRestart}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition"
+            className="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition touch-manipulation"
           >
             Play Again
           </button>
